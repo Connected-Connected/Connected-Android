@@ -6,14 +6,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.beta.connected.connected.KakaoLogin.SignupActivity;
 import com.beta.connected.connected.LoginActivity;
 import com.beta.connected.connected.MainActivity;
+import com.beta.connected.connected.MainFragment.Ajax.TmpAjax;
 import com.beta.connected.connected.R;
 import com.facebook.login.LoginManager;
 import com.kakao.network.ErrorResult;
@@ -21,11 +26,19 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.UnLinkResponseCallback;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TmpFragment extends Fragment {
 
+    //ajax
+    private TmpAjax ajax;
+
+    private Button ajaxType1;
+    private Button ajaxType2;
     private Button logout;
     private Button unlink;
     private Button facebookLogout;
@@ -44,6 +57,27 @@ public class TmpFragment extends Fragment {
         facebookLogout = (Button)view.findViewById(R.id.facebookLogout);
         logout = (Button)view.findViewById(R.id.logout);
         unlink = (Button)view.findViewById(R.id.unlink);
+
+        ajax = new TmpAjax(getActivity());
+        /*
+	  * 2017-02-12
+	  * 김지광
+	  * Ajax Test
+	  */
+        ajaxType1 = (Button)view.findViewById(R.id.ajax_type1);
+        ajaxType2 = (Button)view.findViewById(R.id.ajax_type2);
+        ajaxType1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ajaxTest("type1");
+            }
+        });
+        ajaxType2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ajaxTest("type2");
+            }
+        });
 
         facebookLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +160,24 @@ public class TmpFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void ajaxTest(String type)
+    {
+        ajax.getTmpData(type, new AjaxCallback<JSONArray>(){
+
+            @Override
+            public void callback(String url, JSONArray data, AjaxStatus status) {
+                super.callback(url, data, status);
+                if(data != null) {
+                    Toast.makeText(getContext(), data.toString(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "인터넷 연결을 확인하세요", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
     }
 
 }

@@ -35,5 +35,23 @@
             android:layout_marginBottom="47dp"
             android:layout_above="@+id/unlink"
             android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Ajax Test (Type 1)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ajax_type1"
+            android:layout_above="@+id/ajax_type2"
+            android:layout_alignLeft="@+id/ajax_type2"
+            android:layout_alignStart="@+id/ajax_type2" />
+
+        <Button
+            android:text="Ajax Test (Type 2)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ajax_type2"
+            android:layout_above="@+id/facebookLogout"
+            android:layout_alignLeft="@+id/facebookLogout"
+            android:layout_alignStart="@+id/facebookLogout" />
     </RelativeLayout>
 </FrameLayout>

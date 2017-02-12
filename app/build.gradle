@@ -42,6 +42,9 @@ dependencies {
     // push sdk를 사용하기 위해 필요.
     compile group: 'com.kakao.sdk', name: 'push', version: project.KAKAO_SDK_VERSION
 
+    //ajax 통신 사용하기 위해 필요.
+    compile 'com.googlecode.android-query:android-query:0.25.9'
+
     compile 'com.facebook.android:facebook-android-sdk:4.+'
 
     compile 'com.mikhaellopez:circularimageview:3.0.2'
