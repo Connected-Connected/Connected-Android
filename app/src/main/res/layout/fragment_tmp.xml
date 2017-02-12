@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.beta.connected.connected.MainFragment.TmpFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:text="logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="236dp"
+            android:id="@+id/logout" />
+
+        <Button
+            android:text="unlink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logout"
+            android:layout_alignLeft="@+id/logout"
+            android:layout_alignStart="@+id/logout"
+            android:id="@+id/unlink" />
+
+        <Button
+            android:text="facebook Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/facebookLogout"
+            android:layout_marginBottom="47dp"
+            android:layout_above="@+id/unlink"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</FrameLayout>
