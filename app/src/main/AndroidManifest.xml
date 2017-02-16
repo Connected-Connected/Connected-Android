@@ -63,7 +63,12 @@
         <activity
             android:name=".MessageDetailActivity"
             android:label="@string/title_activity_message_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChattingDetailActivity"
+            android:label="@string/title_activity_chatting_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".WriteMessageActivity"></activity>
     </application>
 
 </manifest>
