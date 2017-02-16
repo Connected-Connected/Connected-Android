@@ -4,6 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +18,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.beta.connected.connected.Connection.WebHook;
+import com.beta.connected.connected.IntroFragment.IntroFragment1;
+import com.beta.connected.connected.IntroFragment.IntroFragment2;
+import com.beta.connected.connected.IntroFragment.IntroFragment3;
+import com.beta.connected.connected.IntroFragment.IntroFragment4;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -42,6 +52,22 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private Button facebookLoginButton;
 
+    /**
+     * The number of pages (wizard steps) to show in this demo.
+     */
+    private static final int NUM_PAGES = 4;
+
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter viewPagerAdapter;
 
 
     @Override
@@ -115,7 +141,15 @@ public class LoginActivity extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////
 
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
 
+        tabLayout = (TabLayout) findViewById(R.id.tabDots);
+        tabLayout.setupWithViewPager(viewPager, true);
+        //viewPager.addOnPageChangeListener(new DetailOnPageChangeListener());
+
+        ////////////////////////////////////////////////////////////////////////////
         /*
         callbackManager = CallbackManager.Factory.create();
 
@@ -224,6 +258,55 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             setContentView(R.layout.activity_login);
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if(position == 0){
+                return new IntroFragment1();
+            }else if(position == 1){
+                return new IntroFragment2();
+            }else if(position == 2){
+                return new IntroFragment3();
+            }else{
+                return new IntroFragment4();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
+
+    public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+
+        private int currentPage;
+
+        @Override
+        public void onPageSelected(int position) {
+            /*
+            currentPage = position;
+
+            if(currentPage == 3){
+                tabLayout.setVisibility(TabLayout.INVISIBLE);
+            }else{
+                tabLayout.setVisibility(TabLayout.VISIBLE);
+            }
+            */
+        }
+
+        public final int getCurrentPage() {
+            return currentPage;
         }
     }
 }

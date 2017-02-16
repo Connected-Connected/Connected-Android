@@ -19,7 +19,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                Intent intent = new Intent(SplashScreenActivity.this, IntroActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
