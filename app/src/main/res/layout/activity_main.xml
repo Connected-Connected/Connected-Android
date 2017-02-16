@@ -45,7 +45,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_filter_list_white_24dp"
+                    app:srcCompat="@drawable/ic_filter_white_24dp"
                     android:id="@+id/btMessageFilter"
                     android:onClick="btMessageFilter"
                     android:layout_gravity="right"
