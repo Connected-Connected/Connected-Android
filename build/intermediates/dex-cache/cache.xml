@@ -61,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="5c2550558238e35f1222a20cd95ba2172da2fe63">
+        sha1="f7bf9009fdd130ef1876b9e551b670ba4b6ae96c">
         <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_88ef8f71818f25bdacefd35fde23b5f8c3a7fca4/classes.dex" />
     </item>
     <item

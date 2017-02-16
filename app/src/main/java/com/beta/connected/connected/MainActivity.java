@@ -1,8 +1,12 @@
 package com.beta.connected.connected;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,6 +18,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -31,6 +36,8 @@ import com.beta.connected.connected.MainFragment.ChattingFragment;
 import com.beta.connected.connected.MainFragment.EventFragment;
 import com.beta.connected.connected.MainFragment.MessageFragment;
 import com.beta.connected.connected.MainFragment.TmpFragment;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     ViewPagerAdapter viewPagerAdapter;
 
+    private LocationManager locationManager;
 
     private Toolbar toolbar;
     private String[] naviItems = {"설정","버전 : 0.0.1(Beta)"};
@@ -53,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -82,8 +92,15 @@ public class MainActivity extends AppCompatActivity {
 
         naviList.addHeaderView(naviHeader);
 
+        ////////////////////////////////////////
 
-        /////////////////////////
+        permissionCheck();
+
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            alertCheckGPS();
+        }
+
+        //////////////////////////////////
 
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -110,6 +127,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /////////////////////
+
+    private void alertCheckGPS() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("GPS가 꺼져있습니다. GPS를 켜시겠습니까? GPS가 꺼져있다면 기능의 제한이 있습니다.")
+                .setCancelable(false)
+                .setPositiveButton("GPS 켜기",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(gpsOptionsIntent);
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    private void permissionCheck() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                permissionCheck();
+                //Toast.makeText(MainActivity.this, "권한 승인 안됨." + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        };
+
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("권한을 승인하지 않으시면 이 서비스를 사용하실 수 없습니다.\n\n권한을 승인해주세요.")
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                .check();
+
+    }
 
     /////////////////////
 
@@ -121,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent;
 
             switch (position) {
+                case 0:
+                    intent = new Intent(MainActivity.this,MyPageActivity.class);
+                    startActivity(intent);
+                    drawer.closeDrawer(naviList);
+                    break;
                 case 1:
                     intent = new Intent(MainActivity.this,IntroActivity.class);
                     startActivity(intent);
@@ -205,6 +273,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     */
+
+    public void btMessageHistory(View view){
+        startActivity(new Intent(MainActivity.this,MessageHistoryActivity.class));
+    }
+
+    public void btMessageFilter(View view){
+        startActivity(new Intent(MainActivity.this,MessageFilterActivity.class));
+    }
 
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
