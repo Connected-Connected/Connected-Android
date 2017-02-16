@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.beta.connected.connected.WriteMessageActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/textView2"
+        android:textSize="30sp"
+        android:text="Write Message UI"
+        android:layout_marginTop="107dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

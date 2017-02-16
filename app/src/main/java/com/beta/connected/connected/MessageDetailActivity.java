@@ -15,7 +15,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        tmp = (TextView) findViewById(R.id.textView2);
+        tmp = (TextView) findViewById(R.id.textView);
         tmp.setText(intent.getStringExtra("id"));
     }
 

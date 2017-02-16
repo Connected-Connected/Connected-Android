@@ -3,6 +3,7 @@ package com.beta.connected.connected.MainFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.beta.connected.connected.RecyclerView.MessageRecyclerAdapter;
 import com.beta.connected.connected.RecyclerView.MessageRow;
 import com.beta.connected.connected.RecyclerView.RecyclerItemClickListener;
 import com.beta.connected.connected.RecyclerView.SimpleDividerItemDecoration;
+import com.beta.connected.connected.WriteMessageActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,9 +34,10 @@ import java.util.List;
  */
 public class MessageFragment extends Fragment {
     private RecyclerView recyclerView;
-    private LinearLayout linearLayout;
+    private RelativeLayout mainRelativeLayout;
     private RelativeLayout relativeLayout;
     private List<MessageRow> messageList;
+    private FloatingActionButton btWriteMessage;
 
     public MessageFragment() {
         // Required empty public constructor
@@ -46,8 +49,17 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
-        linearLayout = (LinearLayout)view.findViewById(R.id.mainLayout);
+        mainRelativeLayout = (RelativeLayout)view.findViewById(R.id.mainLayout);
         relativeLayout = (RelativeLayout)view.findViewById(R.id.infoLayout);
+
+        btWriteMessage = (FloatingActionButton)view.findViewById(R.id.btWriteMessage);
+
+        btWriteMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), WriteMessageActivity.class));
+            }
+        });
 
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
@@ -67,7 +79,7 @@ public class MessageFragment extends Fragment {
                 })
         );
 
-        linearLayout.setVisibility(View.VISIBLE);
+        mainRelativeLayout.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.INVISIBLE);
         initData();
 
