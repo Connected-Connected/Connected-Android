@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 /*
  * Created by admin on 2016-04-11.
- */
+ *///dd
 public class Connect {
     private URL url = null;
 
