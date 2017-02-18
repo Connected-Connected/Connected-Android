@@ -27,7 +27,6 @@ import com.kakao.util.helper.log.Logger;
  * A simple {@link Fragment} subclass.
  */
 public class IntroFragment4 extends Fragment {
-    private Button btLogin;
 
     public IntroFragment4() {
         // Required empty public constructor
@@ -42,16 +41,7 @@ public class IntroFragment4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_intro_fragment4, container, false);
-
-        btLogin = (Button)view.findViewById(R.id.btLogin);
-
-        btLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finish();
-            }
-        });
+        
         return view;
     }
 

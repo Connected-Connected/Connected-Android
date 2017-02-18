@@ -86,7 +86,7 @@ public class ChattingFragment extends Fragment {
 
             chattingRow.setMessage("메세지");
             chattingRow.setUserId("건준");
-            chattingRow.setTime("12:13");
+            chattingRow.setTime("오전 12:13");
             chattingRow.setId(i + "");
             //new ImageFromUrl().execute("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
 

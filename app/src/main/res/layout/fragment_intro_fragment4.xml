@@ -20,19 +20,6 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
-        <Button
-            android:text="로그인"
-            android:background="#FF29B6F6"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btLogin"
-            android:textColor="#FFE98AC8"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="30sp"/>
-
     </RelativeLayout>
 
 

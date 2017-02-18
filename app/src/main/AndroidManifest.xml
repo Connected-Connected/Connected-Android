@@ -79,7 +79,8 @@
         <activity android:name=".WriteMessageActivity" />
         <activity android:name=".MessageHistoryActivity" />
         <activity android:name=".MessageFilterActivity" />
-        <activity android:name=".MyPageActivity"></activity>
+        <activity android:name=".MyPageActivity" />
+        <activity android:name=".SettingActivity"></activity>
     </application>
 
 </manifest>
