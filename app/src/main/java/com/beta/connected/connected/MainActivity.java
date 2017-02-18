@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -46,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    ViewPagerAdapter viewPagerAdapter;
+    private ViewPagerAdapter viewPagerAdapter;
 
     private LocationManager locationManager;
 
     private Toolbar toolbar;
-    private String[] naviItems = {"설정","버전 : 0.0.1(Beta)"};
+    private String[] naviItems = {"설정", "버전 : 0.0.1(Beta)"};
     private ListView naviList;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -64,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-        naviList = (ListView)findViewById(R.id.navi_drawer);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        naviList = (ListView) findViewById(R.id.navi_drawer);
         naviHeader = getLayoutInflater().inflate(R.layout.navi_header, null, false);
         toggle = new ActionBarDrawerToggle(this, drawer,
-                toolbar, R.string.open_drawer, R.string.close_drawer){
+                toolbar, R.string.open_drawer, R.string.close_drawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new ChattingFragment(), "");
         viewPagerAdapter.addFragment(new BlogFragment(), "");
         viewPagerAdapter.addFragment(new EventFragment(), "");
-        viewPagerAdapter.addFragment(new TmpFragment(), "");
+        //viewPagerAdapter.addFragment(new TmpFragment(), "");
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_wechat_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_blogger_white_24dp);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_card_giftcard_white_24dp);
-        tabLayout.getTabAt(4).setIcon(R.drawable.ic_information_outline_white_24dp);
+        //tabLayout.getTabAt(4).setIcon(R.drawable.ic_information_outline_white_24dp);
 
 
         viewPager.addOnPageChangeListener(new MainActivity.DetailOnPageChangeListener());
@@ -190,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     drawer.closeDrawer(naviList);
                     break;
                 case 1:
-                    intent = new Intent(MainActivity.this,IntroActivity.class);
+                    intent = new Intent(MainActivity.this,SettingActivity.class);
                     startActivity(intent);
                     drawer.closeDrawer(naviList);
                     break;

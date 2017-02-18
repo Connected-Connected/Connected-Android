@@ -3,17 +3,21 @@ package com.beta.connected.connected.MainFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.beta.connected.connected.MainActivity;
 import com.beta.connected.connected.MessageDetailActivity;
 import com.beta.connected.connected.R;
 import com.beta.connected.connected.RecyclerView.MessageRecyclerAdapter;
@@ -38,6 +42,7 @@ public class MessageFragment extends Fragment {
     private RelativeLayout relativeLayout;
     private List<MessageRow> messageList;
     private FloatingActionButton btWriteMessage;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public MessageFragment() {
         // Required empty public constructor
@@ -49,6 +54,7 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         mainRelativeLayout = (RelativeLayout)view.findViewById(R.id.mainLayout);
         relativeLayout = (RelativeLayout)view.findViewById(R.id.infoLayout);
 
@@ -79,11 +85,34 @@ public class MessageFragment extends Fragment {
                 })
         );
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshItems();
+            }
+        });
+
         mainRelativeLayout.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.INVISIBLE);
         initData();
 
         return view;
+    }
+
+    void refreshItems() {
+        // Load items
+        // ...
+
+        // Load complete
+        onItemsLoadComplete();
+    }
+
+    void onItemsLoadComplete() {
+        // Update the adapter and notify data set changed
+        // ...
+
+        // Stop refresh animation
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void initData(){
