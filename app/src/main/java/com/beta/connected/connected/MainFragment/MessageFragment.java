@@ -100,20 +100,44 @@ public class MessageFragment extends Fragment {
     }
 
     void refreshItems() {
-        // Load items
-        // ...
+        refreshData();
 
-        // Load complete
-        onItemsLoadComplete();
-    }
-
-    void onItemsLoadComplete() {
-        // Update the adapter and notify data set changed
-        // ...
-
-        // Stop refresh animation
         swipeRefreshLayout.setRefreshing(false);
     }
+
+    private void refreshData(){
+
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        messageList = new ArrayList<MessageRow>();
+
+        for(int i = 1 ; i < 10 ; i++){
+
+            MessageRow messageRow = new MessageRow();
+
+            messageRow.setMessage("refresh 메세지");
+            messageRow.setUserId("refresh 건준");
+            messageRow.setLocation("refresh 상도동");
+            messageRow.setIsNew(true);
+            messageRow.setIsCamera(true);
+            messageRow.setComment(10);
+            messageRow.setWatch(30);
+            messageRow.setId(i + "");
+            //new ImageFromUrl().execute("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+
+            //album.setImage("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+            //aquery.id( thumbNailImage ).image("http://kirkee2.cafe24.com/memberImage/"+kakaoId+".jpg" );
+
+            messageList.add(messageRow);
+
+        }
+
+        recyclerView.setAdapter(new MessageRecyclerAdapter(messageList,R.layout.message_row));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
 
     private void initData(){
 

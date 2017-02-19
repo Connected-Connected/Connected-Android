@@ -5,20 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,17 +21,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.beta.connected.connected.IntroFragment.IntroFragment1;
-import com.beta.connected.connected.IntroFragment.IntroFragment2;
-import com.beta.connected.connected.IntroFragment.IntroFragment3;
-import com.beta.connected.connected.IntroFragment.IntroFragment4;
 import com.beta.connected.connected.MainFragment.BlogFragment;
 import com.beta.connected.connected.MainFragment.ChattingFragment;
 import com.beta.connected.connected.MainFragment.EventFragment;
 import com.beta.connected.connected.MainFragment.MessageFragment;
-import com.beta.connected.connected.MainFragment.TmpFragment;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -59,12 +51,31 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     private View naviHeader;
 
+    private ImageButton btTmp1;
+    private ImageButton btTmp2;
+    private ImageButton btTmp3;
+    private ImageButton btMessageHistory;
+    private ImageButton btMessageFilter;
+
+
+
+    private long backKeyPressedTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ////////////////////////
+
+        btMessageFilter = (ImageButton) findViewById(R.id.btMessageFilter);
+        btMessageHistory = (ImageButton)findViewById(R.id.btMessageHistory);
+        btTmp1 = (ImageButton)findViewById(R.id.btTmp1);
+        btTmp2 = (ImageButton)findViewById(R.id.btTmp2);
+        btTmp3 = (ImageButton)findViewById(R.id.btTmp3);
+
+        ///////////////////////////////////
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,6 +221,32 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
+            if(position ==0){
+                btMessageHistory.setVisibility(View.VISIBLE);
+                btMessageFilter.setVisibility(View.VISIBLE);
+                btTmp1.setVisibility(View.GONE);
+                btTmp2.setVisibility(View.GONE);
+                btTmp3.setVisibility(View.GONE);
+            }else if(position ==1){
+                btMessageHistory.setVisibility(View.GONE);
+                btMessageFilter.setVisibility(View.GONE);
+                btTmp1.setVisibility(View.VISIBLE);
+                btTmp2.setVisibility(View.GONE);
+                btTmp3.setVisibility(View.GONE);
+            }else if(position ==2){
+                btMessageHistory.setVisibility(View.GONE);
+                btMessageFilter.setVisibility(View.GONE);
+                btTmp1.setVisibility(View.GONE);
+                btTmp2.setVisibility(View.VISIBLE);
+                btTmp3.setVisibility(View.GONE);
+            }else{
+                btMessageHistory.setVisibility(View.GONE);
+                btMessageFilter.setVisibility(View.GONE);
+                btTmp1.setVisibility(View.GONE);
+                btTmp2.setVisibility(View.GONE);
+                btTmp3.setVisibility(View.VISIBLE);
+            }
+
             currentPage = position;
         }
 
@@ -228,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+
             return fragmentList.get(position);
         }
 
@@ -247,6 +285,56 @@ public class MainActivity extends AppCompatActivity {
             return "";
         }
     }
+
+    ////////////////////////////////
+
+
+    public void onBackPressed() {
+        if(viewPager.getCurrentItem() == 0){
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                Toast.makeText(this,"뒤로버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                this.finish();
+            }
+        }else{
+            viewPager.setCurrentItem(0);
+        }
+        /*
+        String arr[] = currentFragment.toString().split("\\{",2);
+        if(arr[0].equals("MainFragment")){
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                Toast.makeText(this,"뒤로버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                this.finish();
+            }
+        }else{
+            selected.setSelected(false);
+            home.setSelected(true);
+            selected = home;
+            currentFragment = new MainFragment();
+
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            fragmentTransaction.replace(R.id.MainPagefragment, currentFragment);
+
+            fragmentTransaction.commit();
+
+        }
+
+        */
+    }
+    ////////////////////////////////////////
 
 /*
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
