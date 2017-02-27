@@ -37,7 +37,7 @@ public class WriteMessageRecyclerAdapter extends RecyclerView.Adapter<WriteMessa
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         final WriteMessageRow item = writeMessageRowList.get(position);
-        viewHolder.title.setText(item.getTitle());
+        //viewHolder.title.setText(item.getTitle());
         //viewHolder.userId.setText(item.getUserId());
 
 
