@@ -3,7 +3,6 @@ package com.beta.connected.connected.MainFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,11 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.beta.connected.connected.MainActivity;
 import com.beta.connected.connected.MessageDetailActivity;
 import com.beta.connected.connected.R;
 import com.beta.connected.connected.RecyclerView.MessageRecyclerAdapter;
@@ -25,10 +21,6 @@ import com.beta.connected.connected.RecyclerView.MessageRow;
 import com.beta.connected.connected.RecyclerView.RecyclerItemClickListener;
 import com.beta.connected.connected.RecyclerView.SimpleDividerItemDecoration;
 import com.beta.connected.connected.WriteMessageActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +36,7 @@ public class MessageFragment extends Fragment {
     private FloatingActionButton btWriteMessage;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -53,6 +46,8 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
+
+
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         mainRelativeLayout = (RelativeLayout)view.findViewById(R.id.mainLayout);

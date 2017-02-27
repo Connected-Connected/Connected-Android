@@ -1,9 +1,9 @@
 package com.beta.connected.connected;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,41 +11,35 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.beta.connected.connected.Connection.WebHook;
 import com.beta.connected.connected.IntroFragment.IntroFragment1;
 import com.beta.connected.connected.IntroFragment.IntroFragment2;
 import com.beta.connected.connected.IntroFragment.IntroFragment3;
 import com.beta.connected.connected.IntroFragment.IntroFragment4;
+import com.beta.connected.connected.KakaoLogin.KakaoSignUpActivity;
+import com.beta.connected.connected.LoginSessionController.LoginSessionCheck;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 
-import com.beta.connected.connected.KakaoLogin.SampleLoginActivity;
-import com.beta.connected.connected.KakaoLogin.SignupActivity;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
-import com.kakao.util.helper.log.Logger;
-
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
+    private SharedPreferences loginInfo;
+    private LoginSessionCheck loginSessionCheck;
+
+
     private SessionCallback callback;
 
     private CallbackManager callbackManager;
@@ -75,6 +69,36 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        loginSessionCheck = new LoginSessionCheck(this);
+
+        if(loginInfo.getInt("loginInfo",0) == 0){
+            Toast.makeText(getApplicationContext(),"로그인이 안되어 있습니다.",Toast.LENGTH_LONG).show();
+        }else if(loginInfo.getInt("loginInfo",0) == 1) {
+            if (loginSessionCheck.facebookCheckLogin()) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(),"페북으로 로그인이 되어 있습니다.",Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(getApplicationContext(),"카카오톡으로 로그인이 되어있습니다.",Toast.LENGTH_LONG).show();
+        }
+
+        /*
+        if(AccessToken.getCurrentAccessToken() == null){
+            Toast.makeText(getApplicationContext(),"토큰 유지 안 됬음 로그인 액티비티",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(),"토큰 유지 됬음 로그인 액티비티 "+AccessToken.getCurrentAccessToken().getUserId(),Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        */
+
+
+
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         if (!Session.getCurrentSession().checkAndImplicitOpen()) {
@@ -91,49 +115,37 @@ public class LoginActivity extends AppCompatActivity {
                 callbackManager = CallbackManager.Factory.create();
 
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
-                        Arrays.asList("public_profile", "email"));
+                        Arrays.asList("public_profile"));
+
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(final LoginResult result) {
+                        SharedPreferences loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor editor = loginInfo.edit();
+                        editor.putInt("loginInfo", 1); //First라는 key값으로 infoFirst 데이터를 저장한다.
+                        editor.apply();
+
+                        /*
+                        페이스북 정보 뽑아오기.
+                        new WebHook().execute("페북 사진 " + Profile.getCurrentProfile().getProfilePictureUri(300,300),null,null);
+                        new WebHook().execute("토큰 정보 " + result.getAccessToken().toString(),null,null);
+                        new WebHook().execute("토큰 유저 아이디 " + result.getAccessToken().getUserId(),null,null);
+                        new WebHook().execute("토큰 권한 " + result.getAccessToken().getPermissions(),null,null);
+                        */
 
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
                         finish();
-                        /*
-                        GraphRequest request;
-                        request = GraphRequest.newMeRequest(result.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-
-                            @Override
-                            public void onCompleted(JSONObject user, GraphResponse response) {
-                                if (response.getError() != null) {
-
-                                } else {
-                                    Log.i("TAG", "user: " + user.toString());
-                                    Log.i("TAG", "AccessToken: " + result.getAccessToken().getToken());
-                                    setResult(RESULT_OK);
-
-                                    Intent i = new Intent(MainActivity.this, SampleActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            }
-                        });
-                        Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,email,gender,birthday");
-                        request.setParameters(parameters);
-                        request.executeAsync();
-                        */
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.e("test", "Error: " + error);
-                        //finish();
+                        Toast.makeText(getApplicationContext(),"페이스북 정보를 얻어오는 도중 에러가 발생하였습니다. 다시 시도해야 주십시오.",Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCancel() {
-                        //finish();
                     }
                 });
             }
@@ -213,21 +225,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 */
-
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == 1){
-            Toast.makeText(getApplicationContext(),"네이버 로그인 request code = " +requestCode,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"카카오 로그인 request code = " +requestCode,Toast.LENGTH_LONG).show();
             if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
                 return;
             }
         }else{
-            Toast.makeText(getApplicationContext(),"페북 로그인 request code = " +requestCode,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"페북 로그인 request code = " +requestCode,Toast.LENGTH_LONG).show();
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
 
@@ -245,7 +255,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onSessionOpened() {
-            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+            Intent intent = new Intent(LoginActivity.this, KakaoSignUpActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             finish();
@@ -254,7 +264,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
             if(exception != null) {
-                Logger.e(exception);
+                //exception을 찍어준다.
             }
 
             setContentView(R.layout.activity_login);

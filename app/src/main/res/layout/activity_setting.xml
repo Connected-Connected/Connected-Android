@@ -1,61 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_setting"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.beta.connected.connected.SettingActivity">
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:text="logout"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="236dp"
-            android:id="@+id/logout" />
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Toolbar"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-        <Button
-            android:text="unlink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/logout"
-            android:layout_alignLeft="@+id/logout"
-            android:layout_alignStart="@+id/logout"
-            android:id="@+id/unlink" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/drawer_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="30sp" />
 
-        <Button
-            android:text="facebook Logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/facebookLogout"
-            android:layout_marginBottom="47dp"
-            android:layout_above="@+id/unlink"
-            android:layout_centerHorizontal="true" />
+        </android.support.v7.widget.Toolbar>
 
-        <Button
-            android:text="Ajax Test (Type 1)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ajax_type1"
-            android:layout_above="@+id/ajax_type2"
-            android:layout_alignLeft="@+id/ajax_type2"
-            android:layout_alignStart="@+id/ajax_type2" />
+        <FrameLayout android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:text="Ajax Test (Type 2)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ajax_type2"
-            android:layout_above="@+id/facebookLogout"
-            android:layout_alignLeft="@+id/facebookLogout"
-            android:layout_alignStart="@+id/facebookLogout" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-</RelativeLayout>
+                        <Button
+                            android:text="logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="236dp"
+                            android:id="@+id/logout" />
+
+                        <Button
+                            android:text="Ajax Test (Type 1)"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ajax_type1"
+                            android:layout_above="@+id/ajax_type2"
+                            android:layout_alignLeft="@+id/ajax_type2"
+                            android:layout_alignStart="@+id/ajax_type2" />
+
+                        <Button
+                            android:text="Ajax Test (Type 2)"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ajax_type2"
+                            android:layout_marginBottom="50dp"
+                            android:layout_alignBottom="@+id/logout"
+                            android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@drawable/toolbar_drop_shadow"/>
+
+        </FrameLayout>
+
+
+</LinearLayout>

@@ -15,16 +15,14 @@
  */
 package com.beta.connected.connected.KakaoLogin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.beta.connected.connected.LoginActivity;
 import com.beta.connected.connected.MainActivity;
-import com.beta.connected.connected.R;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.ErrorCode;
 import com.kakao.network.ErrorResult;
@@ -38,7 +36,7 @@ import java.util.Map;
  * 유효한 세션이 있다는 검증 후
  * me를 호출하여 가입 여부에 따라 가입 페이지를 그리던지 Main 페이지로 이동 시킨다.
  */
-public class SignupActivity extends AppCompatActivity {
+public class KakaoSignUpActivity extends AppCompatActivity {
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
      * @param savedInstanceState 기존 session 정보가 저장된 객체
@@ -49,31 +47,6 @@ public class SignupActivity extends AppCompatActivity {
         requestMe();
     }
 
-    private void requestSignUp(final Map<String, String> properties) {
-        UserManagement.requestSignup(new ApiResponseCallback<Long>() {
-            @Override
-            public void onNotSignedUp() {
-            }
-
-            @Override
-            public void onSuccess(Long result) {
-                requestMe();
-            }
-
-            @Override
-            public void onFailure(ErrorResult errorResult) {
-                final String message = "UsermgmtResponseCallback : failure : " + errorResult;
-                com.kakao.util.helper.log.Logger.w(message);
-                //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                finish();
-            }
-
-            @Override
-            public void onSessionClosed(ErrorResult errorResult) {
-            }
-        }, properties);
-    }
-
     /**
      * 사용자의 상태를 알아 보기 위해 me API 호출을 한다.
      */
@@ -81,14 +54,11 @@ public class SignupActivity extends AppCompatActivity {
         UserManagement.requestMe(new MeResponseCallback() {
             @Override
             public void onFailure(ErrorResult errorResult) {
-                String message = "failed to get user info. msg=" + errorResult;
-
                 ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
                 if (result == ErrorCode.CLIENT_ERROR_CODE) {
-                    //Toast.makeText(getApplicationContext(), getString(R.string.error_message_for_service_unavailable), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(KakaoSignUpActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     finish();
@@ -97,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onSessionClosed(ErrorResult errorResult) {
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                Intent intent = new Intent(KakaoSignUpActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
@@ -105,7 +75,14 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(UserProfile userProfile) {
-                Intent intent = new Intent(SignupActivity.this,MainActivity.class);
+                //여기서 sharedPreference에 카카오를 넣으면 되겠군
+                SharedPreferences loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = loginInfo.edit();
+                editor.putInt("loginInfo", 2); //First라는 key값으로 infoFirst 데이터를 저장한다.
+                editor.apply();
+
+                Intent intent = new Intent(KakaoSignUpActivity.this,MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 finish();
@@ -113,7 +90,6 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onNotSignedUp() {
-
             }
         });
     }

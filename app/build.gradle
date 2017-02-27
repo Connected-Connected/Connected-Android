@@ -54,6 +54,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'gun0912.ted:tedpermission:1.0.2'
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.5'
 
     testCompile 'junit:junit:4.12'
 }

@@ -1,48 +1,40 @@
 package com.beta.connected.connected.MainFragment;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-import com.beta.connected.connected.KakaoLogin.SignupActivity;
-import com.beta.connected.connected.LoginActivity;
-import com.beta.connected.connected.MainActivity;
-import com.beta.connected.connected.MainFragment.Ajax.TmpAjax;
+import com.beta.connected.connected.MessageDetailActivity;
 import com.beta.connected.connected.R;
-import com.facebook.login.LoginManager;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
-import com.kakao.usermgmt.callback.UnLinkResponseCallback;
+import com.beta.connected.connected.RecyclerView.MessageRecyclerAdapter;
+import com.beta.connected.connected.RecyclerView.MessageRow;
+import com.beta.connected.connected.RecyclerView.RecyclerItemClickListener;
+import com.beta.connected.connected.RecyclerView.SimpleDividerItemDecoration;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TmpFragment extends Fragment {
 
-    //ajax
-    private TmpAjax ajax;
+    private ArrayList<MessageRow> messageList;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
 
-    private Button ajaxType1;
-    private Button ajaxType2;
-    private Button logout;
-    private Button unlink;
-    private Button facebookLogout;
 
+    TwinklingRefreshLayout refreshLayout;
     public TmpFragment() {
         // Required empty public constructor
     }
@@ -51,133 +43,151 @@ public class TmpFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tmp, container, false);
 
-        facebookLogout = (Button)view.findViewById(R.id.facebookLogout);
-        logout = (Button)view.findViewById(R.id.logout);
-        unlink = (Button)view.findViewById(R.id.unlink);
+        recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
 
-        ajax = new TmpAjax(getActivity());
-        /*
-	  * 2017-02-12
-	  * 김지광
-	  * Ajax Test
-	  */
-        ajaxType1 = (Button)view.findViewById(R.id.ajax_type1);
-        ajaxType2 = (Button)view.findViewById(R.id.ajax_type2);
-        ajaxType1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ajaxTest("type1");
-            }
-        });
-        ajaxType2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ajaxTest("type2");
-            }
-        });
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
-        facebookLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager.getInstance().logOut();
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity().getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
 
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+                        intent.putExtra("id",messageList.get(position).getId());
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserManagement.requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-
-                        Intent intent = new Intent(getActivity(),LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                        getActivity().finish();
                     }
-                });
-            }
-        });
 
-        unlink.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
+        initData();
+
+
+        refreshLayout = (TwinklingRefreshLayout)view.findViewById(R.id.refreshLayout);
+
+         refreshLayout.setOnRefreshListener(new RefreshListenerAdapter(){
             @Override
-            public void onClick(View v) {
-                final String appendMessage = getString(R.string.com_kakao_confirm_unlink);
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(appendMessage)
-                        .setPositiveButton(getString(R.string.com_kakao_ok_button),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        UserManagement.requestUnlink(new UnLinkResponseCallback() {
-                                            @Override
-                                            public void onFailure(ErrorResult errorResult) {
-                                            }
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshData();
+                        refreshLayout.finishRefreshing();
+                    }
+                },2000);
+            }
 
-                                            @Override
-                                            public void onSessionClosed(ErrorResult errorResult) {
-                                                Intent intent = new Intent(getActivity(),LoginActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                                getActivity().finish();
-                                            }
-
-                                            @Override
-                                            public void onNotSignedUp() {
-                                                Intent intent = new Intent(getActivity(),SignupActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                                getActivity().finish();
-                                            }
-
-                                            @Override
-                                            public void onSuccess(Long result) {
-                                                Intent intent = new Intent(getActivity(),LoginActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                                getActivity().finish();
-                                            }
-                                        });
-                                        dialog.dismiss();
-                                    }
-                                })
-                        .setNegativeButton(getString(R.string.com_kakao_cancel_button),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadData();
+                        refreshLayout.finishLoadmore();
+                    }
+                },2000);
             }
         });
+
+
 
         return view;
     }
 
-    private void ajaxTest(String type)
-    {
-        ajax.getTmpData(type, new AjaxCallback<JSONArray>(){
+    private void loadData(){
+        for(int i = 1 ; i < 10 ; i++){
 
-            @Override
-            public void callback(String url, JSONArray data, AjaxStatus status) {
-                super.callback(url, data, status);
-                if(data != null) {
-                    Toast.makeText(getContext(), data.toString(), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getContext(), "인터넷 연결을 확인하세요", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+            MessageRow messageRow = new MessageRow();
 
+            messageRow.setMessage("메세지");
+            messageRow.setUserId("건준");
+            messageRow.setLocation("상도동");
+            messageRow.setIsNew(true);
+            messageRow.setIsCamera(true);
+            messageRow.setComment(10);
+            messageRow.setWatch(30);
+            messageRow.setId(i + "");
+            //new ImageFromUrl().execute("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+
+            //album.setImage("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+            //aquery.id( thumbNailImage ).image("http://kirkee2.cafe24.com/memberImage/"+kakaoId+".jpg" );
+
+            messageList.add(messageRow);
+
+        }
+
+        mAdapter.notifyItemInserted(messageList.size() - 1);
 
     }
 
+    private void refreshData(){
+
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        messageList = new ArrayList<MessageRow>();
+
+        for(int i = 1 ; i < 10 ; i++){
+
+            MessageRow messageRow = new MessageRow();
+
+            messageRow.setMessage("refresh 메세지");
+            messageRow.setUserId("refresh 건준");
+            messageRow.setLocation("refresh 상도동");
+            messageRow.setIsNew(true);
+            messageRow.setIsCamera(true);
+            messageRow.setComment(10);
+            messageRow.setWatch(30);
+            messageRow.setId(i + "");
+            //new ImageFromUrl().execute("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+
+            //album.setImage("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+            //aquery.id( thumbNailImage ).image("http://kirkee2.cafe24.com/memberImage/"+kakaoId+".jpg" );
+
+            messageList.add(messageRow);
+
+        }
+
+        mAdapter = new MessageRecyclerAdapter(messageList,R.layout.message_row);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void initData(){
+
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        messageList = new ArrayList<MessageRow>();
+
+        for(int i = 1 ; i < 10 ; i++){
+
+            MessageRow messageRow = new MessageRow();
+
+            messageRow.setMessage("메세지");
+            messageRow.setUserId("건준");
+            messageRow.setLocation("상도동");
+            messageRow.setIsNew(true);
+            messageRow.setIsCamera(true);
+            messageRow.setComment(10);
+            messageRow.setWatch(30);
+            messageRow.setId(i + "");
+            //new ImageFromUrl().execute("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+
+            //album.setImage("http://kirkee2.cafe24.com/roadImage/road"+jsonObject.getString("id")+".png");
+            //aquery.id( thumbNailImage ).image("http://kirkee2.cafe24.com/memberImage/"+kakaoId+".jpg" );
+
+            messageList.add(messageRow);
+
+        }
+
+        mAdapter = new MessageRecyclerAdapter(messageList,R.layout.message_row);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
 }

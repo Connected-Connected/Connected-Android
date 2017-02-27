@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/kirkee/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/library-2.4.0_fa5e661cdbc5a1c251b4fa4b6a7f2a9afdd860c4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/exploded-aar/com.kakao.sdk/kakaonavi/1.1.33/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -61,8 +70,17 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="2f156a65f51ca5b9b1c963b59ab0f3b82ec31e9f">
+        sha1="e0609fd347539518e4d62324f3ef459a8b14aa85">
         <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_88ef8f71818f25bdacefd35fde23b5f8c3a7fca4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/exploded-aar/com.wang.avi/library/1.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4968500e276d051b8ed8135f1a0254120f6c600d">
+        <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.wang.avi-library-1.0.1_54fef1042e6b46af4d53915f6ede7bae48c13111/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -219,6 +237,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/exploded-aar/com.lcodecorex/tkrefreshlayout/1.0.5/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e0fecb65031d407227f5afad283f6d2059dba3a5">
+        <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.lcodecorex-tkrefreshlayout-1.0.5_2a42760c02ca6a2dfc9c8f266be951eeef75e68b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/exploded-aar/gun0912.ted/tedpermission/1.0.2/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -331,7 +358,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="b28a900bac0124766f7a69f767144eeba5f9e19e">
+        sha1="0677cbc876d17eed8882943ddecbb56fb5d6bf47">
         <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_b4dd0124e7e38a2d528eaac422ab6cf65e5af704/classes.dex" />
     </item>
 

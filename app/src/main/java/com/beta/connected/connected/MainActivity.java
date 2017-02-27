@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,17 +29,42 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.beta.connected.connected.Connection.WebHook;
+import com.beta.connected.connected.LoginSessionController.LoginSessionCheck;
 import com.beta.connected.connected.MainFragment.BlogFragment;
 import com.beta.connected.connected.MainFragment.ChattingFragment;
 import com.beta.connected.connected.MainFragment.EventFragment;
 import com.beta.connected.connected.MainFragment.MessageFragment;
+import com.beta.connected.connected.MainFragment.TmpFragment;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.kakao.auth.ApiResponseCallback;
+import com.kakao.auth.AuthService;
+import com.kakao.auth.network.response.AccessTokenInfoResponse;
+import com.kakao.network.ErrorResult;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class MainActivity extends AppCompatActivity {
+    private SharedPreferences loginInfo;
+    private LoginSessionCheck loginSessionCheck;
+
+    private String id;
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -49,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView naviList;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+
     private View naviHeader;
+    private ImageButton naviHeaderButton;
 
     private ImageButton btTmp1;
     private ImageButton btTmp2;
@@ -65,6 +95,59 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ///////////////////////////
+
+        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        loginSessionCheck = new LoginSessionCheck(this);
+
+        if(loginInfo.getInt("loginInfo",0) == 1){
+            if(loginSessionCheck.facebookCheckLogin()){
+                id = AccessToken.getCurrentAccessToken().getUserId();
+                Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"페이스북 토큰이 만료 됬습니다.",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                finish();
+            }
+        }else if(loginInfo.getInt("loginInfo",0) == 2){
+            requestAccessToken();
+        } else{
+            Toast.makeText(getApplicationContext(),"이 상황은 므지.",Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+        }
+
+        /*
+        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        loginSessionCheck = new LoginSessionCheck(this,loginInfo.getInt("loginInfo",0));
+
+        loginSessionCheck.checkLogin();
+        Toast.makeText(getApplicationContext(),"id =" + loginSessionCheck.getId(),Toast.LENGTH_LONG).show();
+        */
+
+
+        /*
+        if(AccessToken.getCurrentAccessToken() != null) {
+            페이스북 정보 뽑아오기.
+            new WebHook().execute("메인 페북 사진 " + Profile.getCurrentProfile().getProfilePictureUri(300,300),null,null);
+            new WebHook().execute("메인 토큰 정보 " + AccessToken.getCurrentAccessToken().toString(), null, null);
+            new WebHook().execute("메인 토큰 유저 아이디 " + AccessToken.getCurrentAccessToken().getUserId(), null, null);
+            new WebHook().execute("메인 토큰 권한 " + AccessToken.getCurrentAccessToken().getPermissions(), null, null);
+        }else{
+
+        }
+        */
+
+
+
+
+        /////////////////////////
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         ////////////////////////
@@ -105,6 +188,27 @@ public class MainActivity extends AppCompatActivity {
 
         naviList.addHeaderView(naviHeader);
 
+        //naviHeaderButton = (ImageButton)naviHeader.findViewById(R.id.header_button);
+        /*
+        naviHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,MyPageActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(naviList);
+            }
+        });
+
+        naviHeaderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"알람알람알람알람알람",Toast.LENGTH_LONG).show();
+            }
+        });
+        */
+
+        ////// 네비에 버튼 추가 시 추가
+
         ////////////////////////////////////////
 
         permissionCheck();
@@ -120,20 +224,22 @@ public class MainActivity extends AppCompatActivity {
 
         //ViewPagerAdapter adapter = new ViewPagerAdapter(FragmentManager());
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(new EventFragment(), "");
         viewPagerAdapter.addFragment(new MessageFragment(), "");
         viewPagerAdapter.addFragment(new ChattingFragment(), "");
         viewPagerAdapter.addFragment(new BlogFragment(), "");
-        viewPagerAdapter.addFragment(new EventFragment(), "");
-        //viewPagerAdapter.addFragment(new TmpFragment(), "");
+        viewPagerAdapter.addFragment(new TmpFragment(), "");
+
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.message_button);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_wechat_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_blogger_white_24dp);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_card_giftcard_white_24dp);
-        //tabLayout.getTabAt(4).setIcon(R.drawable.ic_information_outline_white_24dp);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_card_giftcard_white_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.message_button);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_wechat_white_24dp);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_blogger_white_24dp);
+        tabLayout.getTabAt(4).setIcon(R.drawable.ic_information_outline_white_24dp);
 
 
         viewPager.addOnPageChangeListener(new MainActivity.DetailOnPageChangeListener());
@@ -197,11 +303,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent;
 
             switch (position) {
+                /*
                 case 0:
                     intent = new Intent(MainActivity.this,MyPageActivity.class);
                     startActivity(intent);
                     drawer.closeDrawer(naviList);
                     break;
+                    */
                 case 1:
                     intent = new Intent(MainActivity.this,SettingActivity.class);
                     startActivity(intent);
@@ -222,29 +330,29 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             if(position ==0){
-                btMessageHistory.setVisibility(View.VISIBLE);
-                btMessageFilter.setVisibility(View.VISIBLE);
-                btTmp1.setVisibility(View.GONE);
-                btTmp2.setVisibility(View.GONE);
-                btTmp3.setVisibility(View.GONE);
-            }else if(position ==1){
-                btMessageHistory.setVisibility(View.GONE);
-                btMessageFilter.setVisibility(View.GONE);
-                btTmp1.setVisibility(View.VISIBLE);
-                btTmp2.setVisibility(View.GONE);
-                btTmp3.setVisibility(View.GONE);
-            }else if(position ==2){
-                btMessageHistory.setVisibility(View.GONE);
-                btMessageFilter.setVisibility(View.GONE);
-                btTmp1.setVisibility(View.GONE);
-                btTmp2.setVisibility(View.VISIBLE);
-                btTmp3.setVisibility(View.GONE);
-            }else{
                 btMessageHistory.setVisibility(View.GONE);
                 btMessageFilter.setVisibility(View.GONE);
                 btTmp1.setVisibility(View.GONE);
                 btTmp2.setVisibility(View.GONE);
                 btTmp3.setVisibility(View.VISIBLE);
+            }else if(position ==1){
+                btMessageHistory.setVisibility(View.VISIBLE);
+                btMessageFilter.setVisibility(View.VISIBLE);
+                btTmp1.setVisibility(View.GONE);
+                btTmp2.setVisibility(View.GONE);
+                btTmp3.setVisibility(View.GONE);
+            }else if(position ==2){
+                btMessageHistory.setVisibility(View.GONE);
+                btMessageFilter.setVisibility(View.GONE);
+                btTmp1.setVisibility(View.VISIBLE);
+                btTmp2.setVisibility(View.GONE);
+                btTmp3.setVisibility(View.GONE);
+            }else{
+                btMessageHistory.setVisibility(View.GONE);
+                btMessageFilter.setVisibility(View.GONE);
+                btTmp1.setVisibility(View.GONE);
+                btTmp2.setVisibility(View.VISIBLE);
+                btTmp3.setVisibility(View.GONE);
             }
 
             currentPage = position;
@@ -364,6 +472,11 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
+
     public void btMessageHistory(View view){
         startActivity(new Intent(MainActivity.this,MessageHistoryActivity.class));
     }
@@ -389,6 +502,40 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void requestAccessToken() {
+
+        AuthService.requestAccessTokenInfo(new ApiResponseCallback<AccessTokenInfoResponse>() {
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+                Toast.makeText(getApplicationContext(),"카카이톡 토큰이 만료 됬습니다.",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onNotSignedUp() {
+                // not happened
+            }
+
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Toast.makeText(getApplicationContext(), "토큰 정보를 받아오는데 실패했음", Toast.LENGTH_LONG).show();
+                //Logger.e("failed to get access token info. msg=" + errorResult);
+            }
+
+            @Override
+            public void onSuccess(AccessTokenInfoResponse accessTokenInfoResponse) {
+                id = Long.toString(accessTokenInfoResponse.getUserId());
+
+                Toast.makeText(getApplicationContext(), "" + id, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 }

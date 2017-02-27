@@ -69,7 +69,7 @@ public class SampleLoginActivity extends AppCompatActivity {
 
         @Override
         public void onSessionOpened() {
-            Intent intent = new Intent(SampleLoginActivity.this, SignupActivity.class);
+            Intent intent = new Intent(SampleLoginActivity.this, KakaoSignUpActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             finish();

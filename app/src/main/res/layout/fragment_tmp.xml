@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.beta.connected.connected.MainFragment.TmpFragment">
 
 
@@ -9,49 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:text="logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="236dp"
-            android:id="@+id/logout" />
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tr_wave_height="200dp"
+            app:tr_bottom_height="30dp"
+            app:tr_head_height="50dp">
 
-        <Button
-            android:text="unlink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/logout"
-            android:layout_alignLeft="@+id/logout"
-            android:layout_alignStart="@+id/logout"
-            android:id="@+id/unlink" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:background="#fff" />
 
-        <Button
-            android:text="facebook Logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/facebookLogout"
-            android:layout_marginBottom="47dp"
-            android:layout_above="@+id/unlink"
-            android:layout_centerHorizontal="true" />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
-        <Button
-            android:text="Ajax Test (Type 1)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ajax_type1"
-            android:layout_above="@+id/ajax_type2"
-            android:layout_alignLeft="@+id/ajax_type2"
-            android:layout_alignStart="@+id/ajax_type2" />
 
-        <Button
-            android:text="Ajax Test (Type 2)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ajax_type2"
-            android:layout_above="@+id/facebookLogout"
-            android:layout_alignLeft="@+id/facebookLogout"
-            android:layout_alignStart="@+id/facebookLogout" />
+
+
     </RelativeLayout>
 </FrameLayout>

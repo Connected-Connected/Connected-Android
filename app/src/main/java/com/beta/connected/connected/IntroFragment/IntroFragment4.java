@@ -1,27 +1,13 @@
 package com.beta.connected.connected.IntroFragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.beta.connected.connected.Connection.WebHook;
-import com.beta.connected.connected.IntroActivity;
-import com.beta.connected.connected.KakaoLogin.SampleLoginActivity;
-import com.beta.connected.connected.KakaoLogin.SignupActivity;
-import com.beta.connected.connected.LoginActivity;
-import com.beta.connected.connected.MainActivity;
 import com.beta.connected.connected.R;
-import com.kakao.auth.ISessionCallback;
-import com.kakao.auth.Session;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
-import com.kakao.util.exception.KakaoException;
-import com.kakao.util.helper.log.Logger;
 
 /**
  * A simple {@link Fragment} subclass.
