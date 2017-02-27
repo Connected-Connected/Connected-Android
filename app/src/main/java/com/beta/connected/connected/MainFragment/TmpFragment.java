@@ -152,7 +152,7 @@ public class TmpFragment extends Fragment {
 
         }
 
-        mAdapter = new MessageRecyclerAdapter(messageList,R.layout.message_row);
+        mAdapter = new MessageRecyclerAdapter(messageList,R.layout.layout_message_row);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -185,7 +185,7 @@ public class TmpFragment extends Fragment {
 
         }
 
-        mAdapter = new MessageRecyclerAdapter(messageList,R.layout.message_row);
+        mAdapter = new MessageRecyclerAdapter(messageList,R.layout.layout_message_row);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());

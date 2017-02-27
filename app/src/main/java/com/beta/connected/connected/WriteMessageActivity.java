@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.beta.connected.connected.LoginSessionController.LoginSessionCheck;
@@ -22,6 +25,7 @@ public class WriteMessageActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private RecyclerView recyclerView;
+    private EditText message;
 
 
     private String id;
@@ -33,6 +37,33 @@ public class WriteMessageActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        message = (EditText)findViewById(R.id.message);
+
+        message.addTextChangedListener(new TextWatcher()
+        {
+            String previousString = "";
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+                previousString= s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                if (message.getLineCount() > 21)
+                {
+                    message.setText(previousString);
+                    message.setSelection(message.length());
+                }
+            }
+        });
 
 
         //////////////////////////////////
