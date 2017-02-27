@@ -127,7 +127,7 @@ public class MessageFragment extends Fragment {
 
         }
 
-        recyclerView.setAdapter(new MessageRecyclerAdapter(messageList,R.layout.message_row));
+        recyclerView.setAdapter(new MessageRecyclerAdapter(messageList,R.layout.layout_message_row));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -161,7 +161,7 @@ public class MessageFragment extends Fragment {
 
         }
 
-        recyclerView.setAdapter(new MessageRecyclerAdapter(messageList,R.layout.message_row));
+        recyclerView.setAdapter(new MessageRecyclerAdapter(messageList,R.layout.layout_message_row));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

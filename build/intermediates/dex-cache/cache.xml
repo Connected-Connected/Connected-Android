@@ -70,8 +70,8 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.1.0_32c36908150f3987f7cca7fae9d27f056ade7be1\classes.dex" />
+        sha1="e15bccb4103df9ba9c9a67bc16206a3fbbb1a9af">
+        <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_88ef8f71818f25bdacefd35fde23b5f8c3a7fca4/classes.dex" />
     </item>
     <item
         is-multidex="true"

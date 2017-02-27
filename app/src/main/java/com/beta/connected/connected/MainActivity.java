@@ -4,11 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,47 +17,29 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.beta.connected.connected.Connection.WebHook;
-import com.beta.connected.connected.LoginSessionController.LoginSessionCheck;
 import com.beta.connected.connected.MainFragment.BlogFragment;
 import com.beta.connected.connected.MainFragment.ChattingFragment;
 import com.beta.connected.connected.MainFragment.EventFragment;
 import com.beta.connected.connected.MainFragment.MessageFragment;
 import com.beta.connected.connected.MainFragment.TmpFragment;
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.AuthService;
-import com.kakao.auth.Session;
 import com.kakao.auth.network.response.AccessTokenInfoResponse;
 import com.kakao.network.ErrorResult;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends AppCompatActivity {
     private String id;
@@ -143,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         naviList = (ListView) findViewById(R.id.navi_drawer);
-        naviHeader = getLayoutInflater().inflate(R.layout.navi_header, null, false);
+        naviHeader = getLayoutInflater().inflate(R.layout.layout_navi_header, null, false);
         toggle = new ActionBarDrawerToggle(this, drawer,
                 toolbar, R.string.open_drawer, R.string.close_drawer) {
 
