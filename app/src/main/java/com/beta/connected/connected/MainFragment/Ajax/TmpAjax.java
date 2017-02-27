@@ -23,9 +23,6 @@ public class TmpAjax extends AjaxAdapter {
     */
     private static String getTmpData = "/tmp/getTmpData.jsp";
 
-    public TmpAjax(){
-
-    }
     public TmpAjax(Activity activity){
         super(activity);
     }
@@ -44,7 +41,7 @@ public class TmpAjax extends AjaxAdapter {
         map.put("dataType", dataType);
 
         //ajax호출
-        aq.ajax(httpUrl(getTmpData), map, JSONArray.class, callback);
+        this.ajax(httpUrl(getTmpData), map, JSONArray.class, callback);
     }
 
 }

@@ -12,8 +12,8 @@ import com.beta.connected.connected.Sqlite.Table.User;
 
 public class ConnectedDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "/mnt/sdcard/Pconnected.db";
+    public static final int DATABASE_VERSION = 3;
+    public static final String DATABASE_NAME = "/mnt/sdcard/connected.db";
 
     public ConnectedDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

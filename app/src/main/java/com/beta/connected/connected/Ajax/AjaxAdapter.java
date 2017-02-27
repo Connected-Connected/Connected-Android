@@ -5,6 +5,7 @@ package com.beta.connected.connected.Ajax;
  */
 
 import android.app.Activity;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.beta.connected.connected.R;
@@ -16,20 +17,17 @@ import java.net.URLEncoder;
 /**
  * Created by 김지광 on 2017-02-12.
  */
-public class AjaxAdapter {
-    protected AQuery aq;
+public class AjaxAdapter extends AQuery {
+
     protected Activity activity;
     /*
 	  * 2017-02-12
 	  * 김지광
 	  * 서버와의 통신을 위한 AQuery 공통함수
 	  */
-    public AjaxAdapter(){
-
-    }
     public AjaxAdapter(Activity activity){
+        super(activity);
         this.activity = activity;
-        aq = new AQuery(activity);
     }
     /*
 	  * 2017-02-12
@@ -37,7 +35,7 @@ public class AjaxAdapter {
 	  * 통신 url 받아오기
 	  */
     protected String httpUrl(){
-        return activity.getResources().getString(R.string.http_url);
+        return this.activity.getResources().getString(R.string.http_url);
     }
 
     /*
@@ -47,7 +45,7 @@ public class AjaxAdapter {
 	  * path : 하위디렉토리 경로
 	  */
     protected String httpUrl(String path){
-        return activity.getResources().getString(R.string.http_url) + path;
+        return this.activity.getResources().getString(R.string.http_url) + path;
     }
 
     protected String decoding(String str)
