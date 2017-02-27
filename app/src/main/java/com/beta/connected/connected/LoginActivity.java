@@ -82,16 +82,10 @@ public class LoginActivity extends AppCompatActivity {
 
         ajax = new LoginAjax(this);
 
-        if (AccessToken.getCurrentAccessToken() != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            callback = new SessionCallback();
-            Session.getCurrentSession().addCallback(callback);
-            if (!Session.getCurrentSession().checkAndImplicitOpen()) {
-                setContentView(R.layout.activity_login);
-            }
+        callback = new SessionCallback();
+        Session.getCurrentSession().addCallback(callback);
+        if (!Session.getCurrentSession().checkAndImplicitOpen()) {
+            setContentView(R.layout.activity_login);
         }
 
         ////////////////////////////////////////////////////////////////////////////
@@ -152,7 +146,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.e("test", "Error: " + error);
                         Toast.makeText(getBaseContext(), "Error: " + error, Toast.LENGTH_LONG).show();
                     }
 
@@ -380,13 +373,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         else {
 
+            Toast.makeText(getBaseContext(), "getUserInfo", Toast.LENGTH_LONG).show();
+
             //서버 DB체크
             ajax.getUserInfo(userToken, new AjaxCallback<JSONObject>(){
                 @Override
                 public void callback(String url, JSONObject data, AjaxStatus status) {
                     super.callback(url, data, status);
 
-                    Toast.makeText(getBaseContext(), data.toString(), Toast.LENGTH_LONG).show();
                     try {
                         if(data != null) {
                             //서버 DB에 있을 경우 내부DB에 저장하고 Main으로 이동
