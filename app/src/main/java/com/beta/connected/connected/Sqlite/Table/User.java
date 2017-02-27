@@ -17,10 +17,9 @@ public class User extends BaseTable {
 
     public static final String TABLE_NAME = "User";
     public static final String COLUMN_NAME_USER_TOKEN = "USER_TOKEN";
-    public static final String COLUMN_NAME_USER_ID = "USER_ID";
     public static final String COLUMN_NAME_USER_NM = "USER_NM";
     public static final String COLUMN_NAME_USER_IMG = "COLUMN_NAME_USER_IMG";
-    public static final String COLUMN_NAME_USER_MAIL = "COLUMN_NAME_USER_MAIL";
+    public static final String COLUMN_NAME_USER_SEX = "COLUMN_NAME_USER_SEX";
     public static final String COLUMN_NAME_USER_AGE = "COLUMN_NAME_USER_AGE";
     public static final String COLUMN_NAME_USER_CONTRY = "COLUMN_NAME_USER_CONTRY";
     public static final String COLUMN_NAME_USER_PROFILE = "COLUMN_NAME_USER_PROFILE";
@@ -28,13 +27,12 @@ public class User extends BaseTable {
     private static ArrayList<BaseColumn> Columns;
 
     private String token;
-    private String id;
+    private String name;
     private String img;
-    private String mail;
+    private int sex;
     private int age;
     private String contry;
     private String profile;
-
 
     public User(){
 
@@ -48,12 +46,12 @@ public class User extends BaseTable {
         this.token = token;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String id) {
+        this.name = id;
     }
 
     public String getImg() {
@@ -64,12 +62,12 @@ public class User extends BaseTable {
         this.img = img;
     }
 
-    public String getMail() {
-        return mail;
+    public int getSex() {
+        return sex;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     public int getAge() {
@@ -135,31 +133,31 @@ public class User extends BaseTable {
         {
             user = new User();
 
-
             user.setToken(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_TOKEN)));
-            user.setId(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_ID)));
+            user.setName(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_NM)));
             user.setImg(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_IMG)));
-            user.setMail(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_MAIL)));
+            user.setSex(curUsers.getInt(curUsers.getColumnIndex(User.COLUMN_NAME_USER_SEX)));
             user.setAge(curUsers.getInt(curUsers.getColumnIndex(User.COLUMN_NAME_USER_AGE)));
             user.setContry(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_CONTRY)));
             user.setProfile(curUsers.getString(curUsers.getColumnIndex(User.COLUMN_NAME_USER_PROFILE)));
 
             users.add(user);
         }
+        User[] userArr = new User[users.size()];
+        userArr = users.toArray(userArr);
 
-
-        return (User[]) users.toArray();
+        return userArr;
     }
 
     private ContentValues getContentValue(){
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME_USER_TOKEN, token);
-        values.put(COLUMN_NAME_USER_ID, id);
-        values.put(COLUMN_NAME_USER_ID, img);
-        values.put(COLUMN_NAME_USER_ID, mail);
-        values.put(COLUMN_NAME_USER_ID, age);
-        values.put(COLUMN_NAME_USER_ID, contry);
-        values.put(COLUMN_NAME_USER_ID, profile);
+        values.put(COLUMN_NAME_USER_NM, name);
+        values.put(COLUMN_NAME_USER_IMG, img);
+        values.put(COLUMN_NAME_USER_SEX, sex);
+        values.put(COLUMN_NAME_USER_AGE, age);
+        values.put(COLUMN_NAME_USER_CONTRY, contry);
+        values.put(COLUMN_NAME_USER_PROFILE, profile);
         return values;
     }
 
@@ -169,10 +167,6 @@ public class User extends BaseTable {
         Columns.add(
                 new BaseColumn(COLUMN_NAME_USER_TOKEN, BaseColumn.ColumnType.Text)
         );
-
-        Columns.add(
-                new BaseColumn(COLUMN_NAME_USER_ID, BaseColumn.ColumnType.Text)
-        );
         Columns.add(
                 new BaseColumn(COLUMN_NAME_USER_NM, BaseColumn.ColumnType.Text)
         );
@@ -181,7 +175,7 @@ public class User extends BaseTable {
         );
 
         Columns.add(
-                new BaseColumn(COLUMN_NAME_USER_MAIL, BaseColumn.ColumnType.Text)
+                new BaseColumn(COLUMN_NAME_USER_SEX, BaseColumn.ColumnType.Int)
         );
         Columns.add(
                 new BaseColumn(COLUMN_NAME_USER_AGE, BaseColumn.ColumnType.Int)

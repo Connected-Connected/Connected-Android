@@ -3,6 +3,7 @@ package com.beta.connected.connected;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,27 +12,39 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.beta.connected.connected.Ajax.Login.LoginAjax;
 import com.beta.connected.connected.IntroFragment.IntroFragment1;
 import com.beta.connected.connected.IntroFragment.IntroFragment2;
 import com.beta.connected.connected.IntroFragment.IntroFragment3;
 import com.beta.connected.connected.IntroFragment.IntroFragment4;
 import com.beta.connected.connected.KakaoLogin.KakaoSignUpActivity;
 import com.beta.connected.connected.LoginSessionController.LoginSessionCheck;
+import com.beta.connected.connected.Sqlite.ConnectedDbHelper;
+import com.beta.connected.connected.Sqlite.Table.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -60,11 +73,14 @@ public class LoginActivity extends AppCompatActivity {
      */
     private PagerAdapter viewPagerAdapter;
 
+    private LoginAjax ajax;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ajax = new LoginAjax(this);
 
         if (AccessToken.getCurrentAccessToken() != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -80,6 +96,23 @@ public class LoginActivity extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////
 
+
+        //region 페이스북 로그인 로직
+
+        // 페이스북 기존 토큰 확인
+        FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+            @Override
+            public void onInitialized() {
+                if(com.facebook.AccessToken.getCurrentAccessToken() == null){
+
+                } else {
+                    //토큰이 있을 경우
+                    String userToken = com.facebook.AccessToken.getCurrentAccessToken().getUserId();
+                    facebookLoginLogic(userToken);
+
+                }
+            }
+        });
         facebookLoginButton = (Button)findViewById(R.id.facebook_login2);
 
         facebookLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -88,35 +121,52 @@ public class LoginActivity extends AppCompatActivity {
                 callbackManager = CallbackManager.Factory.create();
 
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
-                        Arrays.asList("public_profile"));
-
+                        Arrays.asList("public_profile", "email"));
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
-                    public void onSuccess(final LoginResult result) {
-                        /*
-                        페이스북 정보 뽑아오기.
-                        new WebHook().execute("페북 사진 " + Profile.getCurrentProfile().getProfilePictureUri(300,300),null,null);
-                        new WebHook().execute("토큰 정보 " + result.getAccessToken().toString(),null,null);
-                        new WebHook().execute("토큰 유저 아이디 " + result.getAccessToken().getUserId(),null,null);
-                        new WebHook().execute("토큰 권한 " + result.getAccessToken().getPermissions(),null,null);
-                        */
+                    public void onSuccess(LoginResult result) {
 
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        GraphRequest graphRequest = GraphRequest.newMeRequest(result.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+
+                                try {
+
+                                    Toast.makeText(getBaseContext(), object.toString(), Toast.LENGTH_LONG).show();
+                                    String userToken = object.get("id").toString();
+
+                                    facebookLoginLogic(userToken);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email,gender,birthday");
+                        graphRequest.setParameters(parameters);
+                        graphRequest.executeAsync();
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Toast.makeText(getApplicationContext(),"페이스북 정보를 얻어오는 도중 에러가 발생하였습니다. 다시 시도해야 주십시오.",Toast.LENGTH_LONG).show();
+                        Log.e("test", "Error: " + error);
+                        Toast.makeText(getBaseContext(), "Error: " + error, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCancel() {
+                        Toast.makeText(getBaseContext(), "Cancel: " , Toast.LENGTH_LONG).show();
+                        //finish();
                     }
                 });
             }
         });
+
+        //endregion
+
 
         ////////////////////////////////////////////////////////////////////////////
 
@@ -286,4 +336,96 @@ public class LoginActivity extends AppCompatActivity {
             return currentPage;
         }
     }
+
+
+    //메인페이지로 이동하는 함수
+    public void goToMainActivity(String userToken){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("userToken", userToken);
+        startActivity(intent);
+        finish();
+    }
+    //회원가입페이지로 이동하는 함수
+    public void goToSignActivity(String userToken, String userImg){
+        Intent intent = new Intent(LoginActivity.this, LoginSignUpActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("userToken", userToken);
+        bundle.putString("userImg", userImg);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+    //내부 DB에서 user 불러오는 함수
+    public User checkUserInfo(String userToken){
+
+        ConnectedDbHelper conn = new ConnectedDbHelper(getBaseContext());
+        SQLiteDatabase db = conn.getWritableDatabase();
+        User[] users = User.select(db, null, User.COLUMN_NAME_USER_TOKEN +" = ?", new String[] { userToken });
+
+        if(users.length > 0)
+            return users[0];
+        else
+            return null;
+    }
+    public void facebookLoginLogic(String userToken){
+        //내부 DB 체크
+        User user = checkUserInfo(userToken);
+
+        //내부 DB에 있을 경우 Main으로 이동
+        if(user != null) {
+            Toast.makeText(getBaseContext(), user.getName() + "님, 환영합니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "토큰 만료 일 : " + com.facebook.AccessToken.getCurrentAccessToken().getExpires().toString(), Toast.LENGTH_LONG).show();
+            goToMainActivity(user.getToken());
+        }
+        else {
+
+            //서버 DB체크
+            ajax.getUserInfo(userToken, new AjaxCallback<JSONObject>(){
+                @Override
+                public void callback(String url, JSONObject data, AjaxStatus status) {
+                    super.callback(url, data, status);
+
+                    Toast.makeText(getBaseContext(), data.toString(), Toast.LENGTH_LONG).show();
+                    try {
+                        if(data != null) {
+                            //서버 DB에 있을 경우 내부DB에 저장하고 Main으로 이동
+                            saveUserInfo(data);
+                            goToMainActivity(data.getString("userToken"));
+
+                        }
+                        else {
+                            //페이스북 키는 있지만 DB에 없을 경우 Sign 페이지로 이동
+                            goToSignActivity(com.facebook.AccessToken.getCurrentAccessToken().getUserId(), "");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+    }
+
+    public void saveUserInfo(JSONObject obj){
+
+        ConnectedDbHelper conn = new ConnectedDbHelper(getBaseContext());
+        SQLiteDatabase db = conn.getWritableDatabase();
+
+        User user = new User();
+        try {
+            user.setToken(obj.getString(User.COLUMN_NAME_USER_TOKEN));
+            user.setName(obj.getString(User.COLUMN_NAME_USER_NM));
+            user.setImg(obj.getString(User.COLUMN_NAME_USER_IMG));
+            user.setSex(obj.getInt(User.COLUMN_NAME_USER_SEX));
+            user.setAge(obj.getInt(User.COLUMN_NAME_USER_AGE));
+            user.setContry(obj.getString(User.COLUMN_NAME_USER_CONTRY));
+            user.setProfile(obj.getString(User.COLUMN_NAME_USER_PROFILE));
+
+            user.insert(db);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
