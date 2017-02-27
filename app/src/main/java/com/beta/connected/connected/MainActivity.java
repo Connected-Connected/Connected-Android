@@ -50,6 +50,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.AuthService;
+import com.kakao.auth.Session;
 import com.kakao.auth.network.response.AccessTokenInfoResponse;
 import com.kakao.network.ErrorResult;
 
@@ -61,9 +62,6 @@ import java.util.List;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends AppCompatActivity {
-    private SharedPreferences loginInfo;
-    private LoginSessionCheck loginSessionCheck;
-
     private String id;
 
     private ViewPager viewPager;
@@ -98,29 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
         ///////////////////////////
 
-        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        loginSessionCheck = new LoginSessionCheck(this);
-
-        if(loginInfo.getInt("loginInfo",0) == 1){
-            if(loginSessionCheck.facebookCheckLogin()){
-                id = AccessToken.getCurrentAccessToken().getUserId();
-                Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"페이스북 토큰이 만료 됬습니다.",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-                finish();
-            }
-        }else if(loginInfo.getInt("loginInfo",0) == 2){
+        if (AccessToken.getCurrentAccessToken() != null) {
+            id = AccessToken.getCurrentAccessToken().getUserId();
+            Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
+        }else{
             requestAccessToken();
-        } else{
-            Toast.makeText(getApplicationContext(),"이 상황은 므지.",Toast.LENGTH_LONG).show();
-
-            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            finish();
         }
 
         /*
@@ -506,7 +486,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void requestAccessToken() {
-
         AuthService.requestAccessTokenInfo(new ApiResponseCallback<AccessTokenInfoResponse>() {
             @Override
             public void onSessionClosed(ErrorResult errorResult) {
@@ -535,7 +514,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "" + id, Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
 }

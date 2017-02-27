@@ -18,8 +18,6 @@ import com.kakao.auth.network.response.AccessTokenInfoResponse;
 import com.kakao.network.ErrorResult;
 
 public class WriteMessageActivity extends AppCompatActivity {
-    private LoginSessionCheck loginSessionCheck;
-    private SharedPreferences loginInfo;
 
     private Toolbar toolbar;
 
@@ -50,32 +48,12 @@ public class WriteMessageActivity extends AppCompatActivity {
 
         ////////////////////////////////
 
-        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        loginSessionCheck = new LoginSessionCheck(this);
-
-
-        if(loginInfo.getInt("loginInfo",0) == 1){
-            if(loginSessionCheck.facebookCheckLogin()){
-                id = AccessToken.getCurrentAccessToken().getUserId();
-                Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"페이스북 토큰이 만료 됬습니다.",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(WriteMessageActivity.this,LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-                finish();
-            }
-        }else if(loginInfo.getInt("loginInfo",0) == 2){
+        if (AccessToken.getCurrentAccessToken() != null) {
+            id = AccessToken.getCurrentAccessToken().getUserId();
+            Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
+        }else{
             requestAccessToken();
-        } else{
-            Toast.makeText(getApplicationContext(),"이 상황은 므지.",Toast.LENGTH_LONG).show();
-
-            Intent intent = new Intent(WriteMessageActivity.this,LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            finish();
         }
-
 
         /////////////////////////////////
 

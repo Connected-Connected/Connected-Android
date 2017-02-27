@@ -36,9 +36,6 @@ import com.kakao.util.exception.KakaoException;
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
-    private SharedPreferences loginInfo;
-    private LoginSessionCheck loginSessionCheck;
-
 
     private SessionCallback callback;
 
@@ -69,40 +66,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        loginSessionCheck = new LoginSessionCheck(this);
-
-        if(loginInfo.getInt("loginInfo",0) == 0){
-            Toast.makeText(getApplicationContext(),"로그인이 안되어 있습니다.",Toast.LENGTH_LONG).show();
-        }else if(loginInfo.getInt("loginInfo",0) == 1) {
-            if (loginSessionCheck.facebookCheckLogin()) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }else{
-                Toast.makeText(getApplicationContext(),"페북으로 로그인이 되어 있습니다.",Toast.LENGTH_LONG).show();
-            }
-        }else{
-            Toast.makeText(getApplicationContext(),"카카오톡으로 로그인이 되어있습니다.",Toast.LENGTH_LONG).show();
-        }
-
-        /*
-        if(AccessToken.getCurrentAccessToken() == null){
-            Toast.makeText(getApplicationContext(),"토큰 유지 안 됬음 로그인 액티비티",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getApplicationContext(),"토큰 유지 됬음 로그인 액티비티 "+AccessToken.getCurrentAccessToken().getUserId(),Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        if (AccessToken.getCurrentAccessToken() != null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-        }
-        */
-
-
-
-        callback = new SessionCallback();
-        Session.getCurrentSession().addCallback(callback);
-        if (!Session.getCurrentSession().checkAndImplicitOpen()) {
-            setContentView(R.layout.activity_login);
+        }else{
+            callback = new SessionCallback();
+            Session.getCurrentSession().addCallback(callback);
+            if (!Session.getCurrentSession().checkAndImplicitOpen()) {
+                setContentView(R.layout.activity_login);
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////////
@@ -120,12 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(final LoginResult result) {
-                        SharedPreferences loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-
-                        SharedPreferences.Editor editor = loginInfo.edit();
-                        editor.putInt("loginInfo", 1); //First라는 key값으로 infoFirst 데이터를 저장한다.
-                        editor.apply();
-
                         /*
                         페이스북 정보 뽑아오기.
                         new WebHook().execute("페북 사진 " + Profile.getCurrentProfile().getProfilePictureUri(300,300),null,null);

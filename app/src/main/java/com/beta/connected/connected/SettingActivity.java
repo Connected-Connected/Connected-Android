@@ -30,8 +30,6 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import org.json.JSONArray;
 
 public class SettingActivity extends AppCompatActivity {
-    private LoginSessionCheck loginSessionCheck;
-    private SharedPreferences loginInfo;
 
     private String id;
 
@@ -61,31 +59,11 @@ public class SettingActivity extends AppCompatActivity {
         //////////////////////////////
 
 
-        loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        loginSessionCheck = new LoginSessionCheck(this);
-
-
-        if(loginInfo.getInt("loginInfo",0) == 1){
-            if(loginSessionCheck.facebookCheckLogin()){
-                id = AccessToken.getCurrentAccessToken().getUserId();
-                Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getApplicationContext(),"페이스북 토큰이 만료 됬습니다.",Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-                finish();
-            }
-        }else if(loginInfo.getInt("loginInfo",0) == 2){
+        if (AccessToken.getCurrentAccessToken() != null) {
+            id = AccessToken.getCurrentAccessToken().getUserId();
+            Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
+        }else{
             requestAccessToken();
-        } else{
-            Toast.makeText(getApplicationContext(),"이 상황은 므지.",Toast.LENGTH_LONG).show();
-
-            Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            finish();
         }
 
 
@@ -122,9 +100,19 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        /*
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                loginSessionCheck = new LoginSessionCheck(this);
+
+                if (loginSessionCheck.facebookCheckLogin()) {
+                    id = AccessToken.getCurrentAccessToken().getUserId();
+                    Toast.makeText(getApplicationContext(),"" +id,Toast.LENGTH_LONG).show();
+                }else{
+                    requestAccessToken();
+                }
                 if(loginInfo.getInt("loginInfo",0) == 1){
                     LoginManager.getInstance().logOut();
 
@@ -161,6 +149,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+*/
         /*
         unlink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,6 +220,18 @@ public class SettingActivity extends AppCompatActivity {
         */
     }
 
+    public void logout(View v){
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+
+            Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else{
+            requestAccessTokenAndLogout();
+        }
+    }
 
     private void ajaxTest(String type)
     {
@@ -279,7 +280,44 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "" + id, Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    public void requestAccessTokenAndLogout() {
+
+        AuthService.requestAccessTokenInfo(new ApiResponseCallback<AccessTokenInfoResponse>() {
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+                Toast.makeText(getApplicationContext(),"카카이톡 토큰이 만료 됬습니다.",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onNotSignedUp() {
+                // not happened
+            }
+
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Toast.makeText(getApplicationContext(), "토큰 정보를 받아오는데 실패했음", Toast.LENGTH_LONG).show();
+                //Logger.e("failed to get access token info. msg=" + errorResult);
+            }
+
+            @Override
+            public void onSuccess(AccessTokenInfoResponse accessTokenInfoResponse) {
+                UserManagement.requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
