@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.wang.avi\library\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4968500e276d051b8ed8135f1a0254120f6c600d">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.wang.avi-library-1.0.1_ee07d969ae9bb9fae0ab140ed47535ae8093118d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.mcxiaoke.volley\library\1.0.8\ec0f15c77ddd390e5ac514ac72ebbb9f2e0e31e2\library-1.0.8.jar"
         jumboMode="true"
         optimize="true"
@@ -30,6 +39,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\customtabs\25.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="94ba691efc31bf53264db0716d9c9ec03843ea31">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-customtabs-25.0.0_3d88d5e6a51e7bd85f7d8f9760a9dbf2eb99b449\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.kakao.sdk\kakaotalk\1.1.33\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -39,12 +57,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.1.0_abb456c82314a99e939afd6c41567d950cc74858\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
         <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.1.0_ac253d391cb68ec9bcd67f16475408af402c0ab3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_9e4d6350ae8ddb41d0aa6f4434b85c0d148bf101\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -66,12 +102,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.1.0\jars\classes.jar"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\design\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="e15bccb4103df9ba9c9a67bc16206a3fbbb1a9af">
-        <dex dex="/Users/kirkee/Repository/Connected-Android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_88ef8f71818f25bdacefd35fde23b5f8c3a7fca4/classes.dex" />
+        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-25.1.0_0d00f496fd27f5dd72072b75fd6f97314e7ee5a3\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -102,138 +138,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c756d14e99d39471e99013a1e8fd2f3813ed42bf">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-7.8.0_6995fb776fd049329fc5b7321e9e5a39f5e48ded\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\25.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="8a372c4191f80489770a231f7be4820b204b886a">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-25.0.0_61525af76cd427453fd6bee57577a1cd36bc04c4\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.kakao.sdk\network\1.1.33\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="57d3e7e164e1cdc5e0c04e515d0e5e42455d2a43">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.kakao.sdk-network-1.1.33_9f0eba53008c72b51bae4da68512347d84a0520e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.7\69d90fd7fb70e54746e26c10454c220e40a775ce\otto-1.3.7.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="69d90fd7fb70e54746e26c10454c220e40a775ce">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\otto-1.3.7_8a9939cf5a4cc2129f49ebfe6cd1e03a225c3339\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.19.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="c6047a34af07d6ec4e950ba1dc70ce23ac65ecaa">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.19.0_23177cc650983f19d4f79388cd6f70a8abdf8b46\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.0_e65a45fd5831b4b847b9eaf8b1f8450f7e69ca90\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.1.0\support-annotations-25.1.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.0_63261b33e81c8ff74ab3572990eab03d725e5cda\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6f8e54780383bb61b9ac0ef11c14fc1b7ee5d6f8">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_3a2208d480f014034a368ac591ca594b1d537d9c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.1.0_1941895ec2d62428aede6d8e344baa88b2abe1a9\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.wang.avi\library\1.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="4968500e276d051b8ed8135f1a0254120f6c600d">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.wang.avi-library-1.0.1_ee07d969ae9bb9fae0ab140ed47535ae8093118d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\customtabs\25.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="94ba691efc31bf53264db0716d9c9ec03843ea31">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-customtabs-25.0.0_3d88d5e6a51e7bd85f7d8f9760a9dbf2eb99b449\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.1.0_abb456c82314a99e939afd6c41567d950cc74858\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_9e4d6350ae8ddb41d0aa6f4434b85c0d148bf101\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\design\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
-        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-25.1.0_0d00f496fd27f5dd72072b75fd6f97314e7ee5a3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
         <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\library-2.4.0_7d81b4828da3e0c80eb0a4dd2cb9666ff2e9e43e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.8.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c756d14e99d39471e99013a1e8fd2f3813ed42bf">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-7.8.0_6995fb776fd049329fc5b7321e9e5a39f5e48ded\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -273,12 +192,48 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\25.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8a372c4191f80489770a231f7be4820b204b886a">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-25.0.0_61525af76cd427453fd6bee57577a1cd36bc04c4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.kakao.sdk\network\1.1.33\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="57d3e7e164e1cdc5e0c04e515d0e5e42455d2a43">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.kakao.sdk-network-1.1.33_9f0eba53008c72b51bae4da68512347d84a0520e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.7\69d90fd7fb70e54746e26c10454c220e40a775ce\otto-1.3.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="69d90fd7fb70e54746e26c10454c220e40a775ce">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\otto-1.3.7_8a9939cf5a4cc2129f49ebfe6cd1e03a225c3339\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\transition\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="d38084015027549951cbaea5d5f6fb795cc81151">
         <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-transition-25.1.0_2e0292297fa796b9946b0fe5bfa5bd663ffac028\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.19.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c6047a34af07d6ec4e950ba1dc70ce23ac65ecaa">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.19.0_23177cc650983f19d4f79388cd6f70a8abdf8b46\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -300,6 +255,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.0_e65a45fd5831b4b847b9eaf8b1f8450f7e69ca90\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\x-note\.gradle\caches\modules-2\files-2.1\com.googlecode.android-query\android-query\0.25.9\fff82e4e1e56b60d6eb1d5487dbd3d3b526b635f\android-query-0.25.9.jar"
         jumboMode="true"
         optimize="true"
@@ -318,6 +282,24 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\x-note\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.1.0\support-annotations-25.1.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.0_63261b33e81c8ff74ab3572990eab03d725e5cda\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="af8e4c49c65bdf42cdd5a3b6376f9409fe2f3851">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_3a2208d480f014034a368ac591ca594b1d537d9c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -333,6 +315,15 @@
         revision="25.0.2"
         sha1="8ff0ecedeeaf73f31d775079b7a334d087e9e0d6">
         <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.kakao.sdk-usermgmt-1.1.33_83e306f384fa606f6dbe68ce8da55d662aa5fcf6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\x-note\project\Connected\app\Connected-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.1.0_1941895ec2d62428aede6d8e344baa88b2abe1a9\classes.dex" />
     </item>
     <item
         is-multidex="true"

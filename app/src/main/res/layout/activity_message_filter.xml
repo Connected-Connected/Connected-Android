@@ -4,7 +4,7 @@
     android:id="@+id/activity_message_filter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.beta.connected.connected.MessageFilterActivity">
+    tools:context="com.connected.beta.connected.com.connected.beta.MessageFilterActivity">
 
     <TextView
         android:layout_width="wrap_content"

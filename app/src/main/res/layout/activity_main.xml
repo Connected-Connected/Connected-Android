@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="100"
     android:orientation="vertical"
-    tools:context="com.beta.connected.connected.MainActivity">
+    tools:context="com.connected.beta.connected.com.connected.beta.MainActivity">
 
 
             <android.support.v7.widget.Toolbar

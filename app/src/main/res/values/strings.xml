@@ -9,11 +9,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="http_url">http://192.168.0.14:8080/ajax</string>
-    <string name="ftp_url">192.168.0.14</string>
+    <string name="http_url">http://192.168.43.209:8080/ajax</string>
+    <string name="ftp_url">192.168.43.209</string>
     <string name="ftp_port">10680</string>
 
-    
+
     <string name="title_activity_message_detail">MessageDetailActivity</string>
     <string name="title_activity_chatting_detail">ChattingDetailActivity</string>
 </resources>
